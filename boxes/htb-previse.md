@@ -121,11 +121,33 @@ Services I focused on are:
 
 ### GoBuster - Directory Bruteforcing
 
+Bruteforcing the directories on port 80;
+
 ```text
 gobuster dir -u "https://beep.htb" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 50 -k
 ```
 
-Here is the result
+Here are the directories found:
+
+```text
+/help                 [--> https://beep.htb/help/]
+/images               [--> https://beep.htb/images/]
+/themes               [--> https://beep.htb/themes/]
+/modules              [--> https://beep.htb/modules/]
+/mail                 [--> https://beep.htb/mail/]   
+/admin                [--> https://beep.htb/admin/]  
+/static               [--> https://beep.htb/static/] 
+/lang                 [--> https://beep.htb/lang/]   
+/var                  [--> https://beep.htb/var/]    
+/panel                [--> https://beep.htb/panel/]  
+/libs                 [--> https://beep.htb/libs/]   
+/recordings           [--> https://beep.htb/recordings/]
+/configs              [--> https://beep.htb/configs/]
+```
+
+> Going through the website and the services, we can confirm that the machine is a PBX server which hosts email, faxing and more
+
+## Enumeration
 
 
 
