@@ -6,3 +6,5 @@ I've started preparing for the Offensive Security Certified Professional exam an
 
 I will be primarily following [@TJ\_Null](https://twitter.com/TJ_Null)'s OSCP like VM's list and also be documenting the concepts and techniques I found to be important for myself. 
 
+
+
