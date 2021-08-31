@@ -153,19 +153,19 @@ Here are the directories found:
 
 On visiting the default page, we are greeted with a login form:
 
-![](../.gitbook/assets/image%20%283%29.png)
+![](../.gitbook/assets/image%20%2810%29.png)
 
 Notice that the license date says "**2006 - 2021**". This would mean that the Elastix Server is updated to the latest version. However. that is not the case! 
 
 Going through the themes in the `/themes` directory, one can see that it just displays the current year;
 
-![](../.gitbook/assets/image%20%284%29.png)
+![](../.gitbook/assets/image%20%286%29.png)
 
 Going through the `/modules`directory, we see all the folders have been last modified sometime in 2011! Let's check which version it might be.
 
-![Even the files in other directory have been Last Modified sometime in 2011](../.gitbook/assets/image%20%285%29.png)
+![Even the files in other directory have been Last Modified sometime in 2011](../.gitbook/assets/image%20%2811%29.png)
 
-![](../.gitbook/assets/image%20%286%29.png)
+![](../.gitbook/assets/image%20%284%29.png)
 
 Here we can see that **Elastix Version 2.2** was released in 2011. Using `searchsploit` to find some public exploits leads us to two exploits:
 
@@ -178,7 +178,64 @@ Here we can see that **Elastix Version 2.2** was released in 2011. Using `search
 
 Trying to log in to this page with random page results in us being redirected to `/session_login.cgi` 
 
+![](../.gitbook/assets/image%20%289%29.png)
+
+CGI refers to Common Gateway Interface which allows web developers generate dynamic pages through shell scripts or programs. In other words, the CGI runs the scripts based on user input and generates the webpages accordingly. When a CGI is called, it spawns a `bash` process and runs the CGI script. 
+
+I'm explaining this because it is very likely that Webmin server is vulnerable to ShellShock since it's running old software and has CGI pages.
+
+## Exploitation
+
+### Elastix: LFI
+
+Using `searchsploit` to view the LFI exploit;
+
+```text
+searchsploit -x php/webapps/37637.pl
+```
+
+![](../.gitbook/assets/image%20%285%29.png)
+
+It's a `perl` script which uses the given LFI endpoint;
+
+```text
+/vtigercrm/graph.php?current_language=../../../../../../../..//etc/amportal.conf%00&module=Accounts&action
+```
+
+Hence, navigating to the endpoint results in LFI which results in us being able to view the `amportal.conf` file. 
+
+![Config files usually reveal a lot of critical information!](../.gitbook/assets/image%20%282%29.png)
+
+From this file, we get a username and password which can be used to log in to Elastix and FreePBX which is located on `/admin`. Once logged, it's time to go through the applications and enumerate more! 
+
+Going through the FreePBX website, I saw this;
+
+![](../.gitbook/assets/image%20%283%29.png)
+
+Apparently FreePBX uses a Java Applet which allows users to login to SSH with the users they've created. Read more about this [here](https://wiki.freepbx.org/display/FPG/Java+SSH+Module). This means we can login with SSH!
+
+```text
+❯ ssh root@beep.htb
+Unable to negotiate with 10.10.10.7 port 22: no matching key exchange method found. Their offer: diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1
+```
+
+On doing so, we come across this key exchange error. This is because the box is quite old and OpenSSH doesn't support the key exchange methods offered by the box anymore. This can be overcome by;
+
+```text
+ssh root@beep.htb -oKexAlgorithms=+diffie-hellman-group1-sha1
+```
+
+And we're in!
+
 ![](../.gitbook/assets/image%20%287%29.png)
+
+### Elastix: RCE
+
+View the exploit with;
+
+```text
+searchsploit -x php/webapps/18650.py
+```
 
 
 
