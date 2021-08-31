@@ -149,5 +149,25 @@ Here are the directories found:
 
 ## Enumeration
 
+### Elastix
+
+On visiting the default page, we are greeted with a login form:
+
+![](../.gitbook/assets/image%20%283%29.png)
+
+Notice that the license date says "**2006 - 2021**". This would mean that the Elastix Server is updated to the latest version. However. that is not the case! 
+
+Going through the themes in the `/themes` directory, one can see that it just displays the current year;
+
+![](../.gitbook/assets/image%20%284%29.png)
+
+Going through the `/modules`directory, we see all the folders have been last modified sometime in 2011! Let's check which version it might be.
+
+![Even the files in other directory have been Last Modified sometime in 2011](../.gitbook/assets/image%20%285%29.png)
+
+![](../.gitbook/assets/image%20%286%29.png)
+
+Here we can see that **Elastix Version 2.2** was released in 2011. Using `searchsploit` to find some public exploits leads us to a _Local File Inclusion_ exploit and _Remote Code Execution_ exploit. 
+
 
 
