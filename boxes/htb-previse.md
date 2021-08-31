@@ -167,7 +167,18 @@ Going through the `/modules`directory, we see all the folders have been last mod
 
 ![](../.gitbook/assets/image%20%286%29.png)
 
-Here we can see that **Elastix Version 2.2** was released in 2011. Using `searchsploit` to find some public exploits leads us to a _Local File Inclusion_ exploit and _Remote Code Execution_ exploit. 
+Here we can see that **Elastix Version 2.2** was released in 2011. Using `searchsploit` to find some public exploits leads us to two exploits:
+
+* **Local File Inclusion**
+* **Remote Code Execution** 
+
+
+
+### **W**ebmin MiniServ
+
+Trying to log in to this page with random page results in us being redirected to `/session_login.cgi` 
+
+![](../.gitbook/assets/image%20%287%29.png)
 
 
 
